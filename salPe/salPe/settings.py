@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from unipath import Path
+PROJECT_ROOT = Path(__file__).ancestor(2)
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'apps.events',
+    'apps.organizations',
+    'apps.profiles',
+
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +62,9 @@ ROOT_URLCONF = 'salPe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            PROJECT_ROOT.child("templates"),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +85,12 @@ WSGI_APPLICATION = 'salPe.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -100,3 +113,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = (
+    PROJECT_ROOT.child("static"),
+)
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+AUTH_USER_MODEL = 'profiles.CustomUser'
+
+REGISTRATION_SALT = os.environ['REGISTRATION_SALT']
+
+ACCOUNT_ACTIVATION_DAYS = 3

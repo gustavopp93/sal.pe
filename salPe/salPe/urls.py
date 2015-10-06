@@ -13,9 +13,29 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
+from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
+
+from apps.organizations.views import (OrganizationSignupFormView, OrganizationConfirmRedirectView,
+                                      OrganizationProfileFormView, OrganizationLoginFormView)
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-]
+    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^registro/$',
+        OrganizationSignupFormView.as_view(),
+        name='organization_signup'),
+
+    url(r'^ingreso/$',
+        OrganizationLoginFormView.as_view(),
+        name='organization_login'),
+
+    url(r'^confirmar/(?P<activation_key>[\w.@+-:]+)/$',
+        OrganizationConfirmRedirectView.as_view(),
+        name='organization_confirmation'),
+
+    url(r'^organizacion/$',
+        OrganizationProfileFormView.as_view(),
+        name='organization_profile'),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
