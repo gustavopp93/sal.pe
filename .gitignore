@@ -57,4 +57,13 @@ docs/_build/
 target/
 
 # Pycharm stuff
-.idea
+.idea/
+
+#Elastic Beanstalk stuff
+.elasticbeanstalk/
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
