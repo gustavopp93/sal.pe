@@ -112,11 +112,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_ROOT = PROJECT_ROOT.child("static"),
-STATIC_URL = '/static/'
-
-
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #Custom User
@@ -130,5 +125,18 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 #AWS S3
 AWS_STORAGE_BUCKET_NAME = 'salpe'
+
+# STATIC_ROOT = PROJECT_ROOT.child("static")
+STATICFILES_DIRS = (
+    PROJECT_ROOT.child("static"),
+)
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
 AWS_ACCESS_KEY_ID = os.environ['AWS_SECRET_KEY']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
+
+
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

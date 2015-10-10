@@ -40,4 +40,4 @@ urlpatterns = [
         OrganizationProfileFormView.as_view(),
         name='organization_profile'),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
