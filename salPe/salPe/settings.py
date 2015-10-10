@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'apps.profiles',
 
     'crispy_forms',
+    'storages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,17 +113,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+STATIC_ROOT = PROJECT_ROOT.child("static"),
 STATIC_URL = '/static/'
 
 
-STATICFILES_DIRS = (
-    PROJECT_ROOT.child("static"),
-)
-
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+#Custom User
 AUTH_USER_MODEL = 'profiles.CustomUser'
 
+
+#Registration rules
 REGISTRATION_SALT = os.environ['REGISTRATION_SALT']
 
 ACCOUNT_ACTIVATION_DAYS = 3
+
+#AWS S3
+AWS_STORAGE_BUCKET_NAME = 'salpe'
+AWS_ACCESS_KEY_ID = os.environ['AWS_SECRET_KEY']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
