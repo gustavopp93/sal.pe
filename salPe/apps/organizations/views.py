@@ -7,6 +7,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.generic import FormView, RedirectView, UpdateView
 
 from apps.core.extra.constants import ORGANIZATION_ID_KEY
+from apps.core.extra.email import send_email_via_mandrill
 from apps.core.extra.mixin import LoginRequiredMixin, OrganizationRequiredMixin
 
 from apps.organizations.forms.auth import OrganizationSignupForm, OrganizationLoginForm
@@ -41,7 +42,13 @@ class OrganizationSignupFormView(FormView):
         activation_key = signer.sign(
             str(getattr(user, user.USERNAME_FIELD))
         )
-        print(activation_key)
+        url = settings.SITE_URL + reverse('organization_confirmation', kwargs={'activation_key': activation_key})
+        content = [
+            {'name': 'name', 'content': user.get_full_name()},
+            {'name': 'url', 'content': url}
+        ]
+        send_email_via_mandrill(email, user.get_full_name(), 'Verificación  de email',
+                                'confirmation', content)
         messages.success(self.request, self.MSG_SUCCESS)
         return super().form_valid(form)
 
@@ -92,7 +99,6 @@ class OrganizationConfirmRedirectView(RedirectView):
                         organization_user = OrganizationUser.objects.get(user=user)
 
                         password = user_model.objects.make_random_password()
-                        print(password)
 
                         user.set_password(password)
                         user.is_active = True
@@ -101,6 +107,12 @@ class OrganizationConfirmRedirectView(RedirectView):
                         auth_user = authenticate(username=user.email, password=password)
                         login(self.request, auth_user)
                         self.request.session[ORGANIZATION_ID_KEY] = organization_user.organization_id
+                        content = [
+                            {'name': 'name', 'content': user.get_full_name()},
+                            {'name': 'password', 'content': password}
+                        ]
+                        send_email_via_mandrill(user.email, user.get_full_name(), 'Contraseña generada',
+                                                'password', content)
                         return reverse('organization_profile')
                     except OrganizationUser.DoesNotExist:
                         pass
@@ -134,4 +146,3 @@ class OrganizationProfileFormView(LoginRequiredMixin,
 
     def get_success_url(self):
         return reverse('organization_profile')
-

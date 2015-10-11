@@ -26,6 +26,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SITE_URL = 'http://salpe-dev.elasticbeanstalk.com'
+
 ALLOWED_HOSTS = []
 
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = (
     'apps.events',
     'apps.organizations',
     'apps.profiles',
+    'apps.core',
 
     'crispy_forms',
     'storages',
@@ -109,34 +112,40 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-#Custom User
+# Custom User
 AUTH_USER_MODEL = 'profiles.CustomUser'
 
 
-#Registration rules
+# Registration rules
 REGISTRATION_SALT = os.environ['REGISTRATION_SALT']
 
 ACCOUNT_ACTIVATION_DAYS = 3
 
-#AWS S3
-AWS_STORAGE_BUCKET_NAME = 'salpe'
-
-# STATIC_ROOT = PROJECT_ROOT.child("static")
 STATICFILES_DIRS = (
     PROJECT_ROOT.child("static"),
 )
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
-STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+# AWS S3
+AWS_STORAGE_BUCKET_NAME = 'salpe'
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_SECRET_KEY']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']
 
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'apps.core.extra.storages.StaticStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'apps.core.extra.storages.MediaStorage'
+
+ORGANIZATION_AVATAR_DIR = 'organization/avatar'
+
+# Mandrill
+MANDRILL_API_KEY = os.environ['MANDRILL_API_KEY']
