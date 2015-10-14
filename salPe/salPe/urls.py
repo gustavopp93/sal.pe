@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from apps.organizations.views import (OrganizationSignupFormView, OrganizationConfirmRedirectView,
-                                      OrganizationProfileFormView, OrganizationLoginFormView)
+                                      OrganizationProfileFormView, OrganizationLoginFormView,
+                                      OrganziationLogoutRedirectView)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -39,5 +40,9 @@ urlpatterns = [
     url(r'^organizacion/$',
         OrganizationProfileFormView.as_view(),
         name='organization_profile'),
+
+    url(r'^salir/$',
+        OrganziationLogoutRedirectView.as_view(),
+        name='organization_logout'),
 
 ]

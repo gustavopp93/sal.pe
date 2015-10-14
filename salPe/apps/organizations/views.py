@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import get_user_model, login, authenticate
+from django.contrib.auth import get_user_model, login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.core import signing
 from django.http import Http404, HttpResponseRedirect
@@ -146,3 +146,13 @@ class OrganizationProfileFormView(LoginRequiredMixin,
 
     def get_success_url(self):
         return reverse('organization_profile')
+
+
+class OrganziationLogoutRedirectView(LoginRequiredMixin,
+                                     RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        logout(self.request)
+        return reverse('organization_login')
+
