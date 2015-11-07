@@ -153,9 +153,9 @@ ORGANIZATION_AVATAR_DIR = 'organization/avatar'
 MANDRILL_API_KEY = os.environ['MANDRILL_API_KEY']
 
 
-#Geo position
+# Geo position
 GEOPOSITION_MAP_OPTIONS = {
-    'zoom': 9,
+    'zoom': 10,
     'center': {
         'lat': -12.150498774159367,
         'lng': -76.99333564785161

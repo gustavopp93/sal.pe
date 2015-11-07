@@ -10,8 +10,8 @@ class EventType(models.Model):
     STATUS_INACTIVE = 0
 
     STATUS_CHOICES = (
-        (STATUS_ACTIVE, u'Activo', ),
-        (STATUS_INACTIVE, u'Inactivo', )
+        (STATUS_ACTIVE, 'Activo', ),
+        (STATUS_INACTIVE, 'Inactivo', )
     )
 
     name = models.CharField(max_length=100)
