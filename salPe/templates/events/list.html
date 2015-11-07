@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{% load crispy_forms_tags %}
+{% load bootstrap_pagination %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,6 +88,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Eventos</h1>
+                        <a class="btn btn-primary" href="{% url 'events_create' %}">
+                            Crear Evento
+                        </a>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -126,6 +129,7 @@
                                     </table>
                                     <!-- /.col-lg-6 (nested) -->
                                 </div>
+                                {% bootstrap_paginate page_obj range=10 %}
                                 <!-- /.row (nested) -->
                             </div>
                             <!-- /.panel-body -->
@@ -149,6 +153,6 @@
 
         <script src="{% static "js/sb-admin-2.js" %}"></script>
 
-</body>
+    </body>
 
 </html>

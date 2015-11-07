@@ -15,6 +15,7 @@ class EventListView(LoginRequiredMixin,
     model = Event
     template_name = 'events/list.html'
     context_object_name = 'events'
+    paginate_by = 10
 
 
 class EventCreateView(LoginRequiredMixin,
