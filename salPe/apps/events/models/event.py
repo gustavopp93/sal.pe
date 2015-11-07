@@ -6,8 +6,22 @@ from apps.organizations.models import Organization
 
 
 class EventType(models.Model):
+    STATUS_ACTIVE = 1
+    STATUS_INACTIVE = 0
+
+    STATUS_CHOICES = (
+        (STATUS_ACTIVE, u'Activo', ),
+        (STATUS_INACTIVE, u'Inactivo', )
+    )
+
     name = models.CharField(max_length=100)
-    status = models.PositiveSmallIntegerField()
+    status = models.PositiveSmallIntegerField(
+        choices=STATUS_CHOICES,
+        default=STATUS_ACTIVE
+    )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         app_label = 'events'

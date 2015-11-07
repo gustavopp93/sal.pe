@@ -10,9 +10,11 @@ from apps.core.extra.constants import ORGANIZATION_ID_KEY
 from apps.core.extra.email import send_email_via_mandrill
 from apps.core.extra.mixin import LoginRequiredMixin, OrganizationRequiredMixin
 
-from apps.organizations.forms.auth import OrganizationSignupForm, OrganizationLoginForm
+from apps.organizations.forms.auth import (OrganizationSignupForm,
+                                           OrganizationLoginForm)
 from apps.organizations.forms.profile import OrganizationProfileUpdateModelForm
-from apps.organizations.models.organization import Organization, OrganizationUser
+from apps.organizations.models.organization import (Organization,
+                                                    OrganizationUser)
 
 
 class OrganizationSignupFormView(FormView):
@@ -155,4 +157,3 @@ class OrganziationLogoutRedirectView(LoginRequiredMixin,
     def get_redirect_url(self, *args, **kwargs):
         logout(self.request)
         return reverse('organization_login')
-
