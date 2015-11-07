@@ -1,7 +1,9 @@
+from braces.views import AnonymousRequiredMixin
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate, logout
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.core import signing
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic import FormView, RedirectView, UpdateView
@@ -17,7 +19,9 @@ from apps.organizations.models.organization import (Organization,
                                                     OrganizationUser)
 
 
-class OrganizationSignupFormView(FormView):
+class OrganizationSignupFormView(AnonymousRequiredMixin, FormView):
+    authenticated_redirect_url = reverse_lazy('organization_profile')
+
     form_class = OrganizationSignupForm
     template_name = 'organizations/singup.html'
 
@@ -58,7 +62,9 @@ class OrganizationSignupFormView(FormView):
         return reverse('organization_signup')
 
 
-class OrganizationLoginFormView(FormView):
+class OrganizationLoginFormView(AnonymousRequiredMixin, FormView):
+    authenticated_redirect_url = reverse_lazy('organization_profile')
+
     form_class = OrganizationLoginForm
     template_name = 'organizations/login.html'
 

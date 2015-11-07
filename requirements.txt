@@ -2,6 +2,7 @@ boto==2.38.0
 Django==1.8.4
 django-appconf==1.0.1
 django-bootstrap-pagination==1.5.1
+django-braces==1.8.1
 django-crispy-forms==1.5.2
 django-geoposition==0.2.2
 django-storages-redux==1.3

@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from apps.events.views import EventListView, EventCreateView, EventUpdateView
+from apps.events.views import EventListView, EventCreateView, EventUpdateView, EventListJSONView
 
 from apps.organizations.views import (OrganizationSignupFormView,
                                       OrganizationConfirmRedirectView,
@@ -43,5 +43,9 @@ urlpatterns = [
     url(r'^salir/$',
         OrganziationLogoutRedirectView.as_view(),
         name='organization_logout'),
+
+    url(r'^mobile/events/$',
+        EventListJSONView.as_view(),
+        name='mobile_events'),
 
 ]
