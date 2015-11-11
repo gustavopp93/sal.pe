@@ -19,6 +19,7 @@ class Organization(models.Model):
                                               default=STATUS_INACTIVE)
 
     avatar = models.ImageField(upload_to=settings.ORGANIZATION_AVATAR_DIR)
+    web_site = models.URLField()
 
     contact_phone = models.CharField(max_length=30)
     contact_name = models.CharField(max_length=50)

@@ -148,6 +148,7 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 DEFAULT_FILE_STORAGE = 'apps.core.extra.storages.MediaStorage'
 
 ORGANIZATION_AVATAR_DIR = 'organization/avatar'
+EVENT_AVATAR_DIR = 'event/avatar'
 
 # Mandrill
 MANDRILL_API_KEY = os.environ['MANDRILL_API_KEY']

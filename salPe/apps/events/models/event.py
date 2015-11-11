@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from geoposition.fields import GeopositionField
@@ -37,6 +38,8 @@ class Event(models.Model):
 
     position = GeopositionField()
     start_date = models.DateField()
+
+    avatar = models.ImageField(upload_to=settings.EVENT_AVATAR_DIR)
 
     class Meta:
         app_label = 'events'
