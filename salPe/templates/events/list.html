@@ -91,6 +91,18 @@
                         <a class="btn btn-primary" href="{% url 'events_create' %}">
                             Crear Evento
                         </a>
+                        <form method="GET" class="form-inline">
+                            <div class="form-group">
+                                <label for="event-type">Tipo de Evento</label>
+                                <select id="event-type" class="form-control" name="event_type">
+                                    <option value="">---------</option>
+                                    {% for event_type in event_types %}
+                                        <option value="{{ event_type.id }}">{{ event_type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-default">Buscar</button>
+                        </form>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

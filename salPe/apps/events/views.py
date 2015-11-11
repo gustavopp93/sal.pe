@@ -8,7 +8,7 @@ from apps.core.extra.constants import ORGANIZATION_ID_KEY
 from apps.core.extra.mixin import LoginRequiredMixin, OrganizationRequiredMixin
 
 from apps.events.forms.events import EventModelForm
-from apps.events.models import Event
+from apps.events.models import Event, EventType
 
 
 class EventListView(LoginRequiredMixin,
@@ -18,6 +18,18 @@ class EventListView(LoginRequiredMixin,
     template_name = 'events/list.html'
     context_object_name = 'events'
     paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        event_type = self.request.GET.get('event_type', None)
+        if event_type is not None and event_type != '':
+            queryset = queryset.filter(event_type_id=event_type)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['event_types'] = EventType.objects.all()
+        return context
 
 
 class EventCreateView(LoginRequiredMixin,
