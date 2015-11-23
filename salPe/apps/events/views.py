@@ -87,5 +87,5 @@ class EventTypeListJSONView(JSONResponseMixin, View):
 
     def get(self, request, *args, **kwargs):
         event_types = EventType.objects.filter(status=EventType.STATUS_ACTIVE)
-        event_types = list(event_types.values_list('id', 'name', flat=True))
+        event_types = list(event_types.values('id', 'name'))
         return self.render_json_response(event_types)
