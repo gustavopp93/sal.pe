@@ -62,8 +62,15 @@ class EventUpdateView(LoginRequiredMixin,
 
 class EventListJSONView(JSONResponseMixin, View):
 
+    def filter_queryset(self, queryset):
+        event_type = self.request.GET.get('event_type', None)
+        if event_type is not None and event_type.isdigit():
+            queryset = queryset.filter(event_type_id=event_type)
+        return queryset
+
     def get(self, request, *args, **kwargs):
         events = Event.objects.all().only('id', 'name', 'position', 'event_type')
+        events = self.filter_queryset(events)
         data = []
         for event in events:
             data.append({
@@ -74,3 +81,11 @@ class EventListJSONView(JSONResponseMixin, View):
                 'event_type_id': event.event_type_id
             })
         return self.render_json_response(data)
+
+
+class EventTypeListJSONView(JSONResponseMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        event_types = EventType.objects.filter(status=EventType.STATUS_ACTIVE)
+        event_types = list(event_types.values_list('id', 'name', flat=True))
+        return self.render_json_response(event_types)
