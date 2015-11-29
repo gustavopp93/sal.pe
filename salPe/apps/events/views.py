@@ -69,7 +69,7 @@ class EventListJSONView(JSONResponseMixin, View):
         return queryset
 
     def get(self, request, *args, **kwargs):
-        events = Event.objects.all().only('id', 'name', 'position', 'event_type')
+        events = Event.objects.all()
         events = self.filter_queryset(events)
         data = []
         for event in events:
@@ -78,7 +78,10 @@ class EventListJSONView(JSONResponseMixin, View):
                 'name': event.name,
                 'latitude': event.position.latitude,
                 'longitude': event.position.longitude,
-                'event_type_id': event.event_type_id
+                'event_type_id': event.event_type_id,
+                'avatar': event.avatar.url,
+                'description': event.description,
+                'extra_data': event.extra_data
             })
         return self.render_json_response(data)
 
