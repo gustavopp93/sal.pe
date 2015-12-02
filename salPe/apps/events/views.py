@@ -80,10 +80,34 @@ class EventListJSONView(JSONResponseMixin, View):
                 'longitude': event.position.longitude,
                 'event_type_id': event.event_type_id,
                 'avatar': event.avatar.url,
-                'description': event.description,
-                'extra_data': event.extra_data
+                # 'description': event.description,
+                # 'extra_data': event.extra_data
             })
         return self.render_json_response(data)
+
+
+class EventDetailJsonView(JSONResponseMixin, View):
+    json_dumps_kwargs = {'ensure_ascii': True}
+
+    def get(self, request, *args, **kwargs):
+        event = self.get_event()
+        data = {}
+        if event is not None:
+            data = {
+                'start_date': event.start_date,
+                'organization': event.organization.name,
+                'event_type': event.event_type.name,
+                'description': event.description,
+                'extra_data': event.extra_data
+            }
+        return self.render_json_response(data)
+
+    def get_event(self):
+        event_id = self.kwargs.get('event_id')
+        try:
+            return Event.objects.get(id=event_id)
+        except Event.DoesNotExist:
+            return None
 
 
 class EventTypeListJSONView(JSONResponseMixin, View):
